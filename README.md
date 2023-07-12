@@ -5,7 +5,7 @@
 5)	На диске "D:" создан каталог "JumpIntoHappiness", в нем:  "abibas.xml" – переменные для работы программы в файле "ReleaseOfHappiness.ps1";
 6)	"abibas.xml" автоматически откроется для настройки на организацию;
 7)	Создан ярлык на рабочий стол для файла "ReleaseOfHappiness.ps1";
-8)	В файле "ReleaseOfHappiness.ps1" и везде, где сочтешь нужным, делай необходимые правки, на свой вкус;
+8)	В файле "ReleaseOfHappiness.ps1" и везде, где сочтешь нужным, делай необходимые правки, на свой вкус.
 
 <!---
 DIPx2/DIPx2 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
