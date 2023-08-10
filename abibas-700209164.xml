@@ -5,7 +5,7 @@
     <DisplayName>Войниловский</DisplayName> <!-- Название организации -->
 
     <FTP_Sever>
-        <IP_FTP>10.6.149.11</IP_FTP>
+        <IP_FTP>100.100.100.100</IP_FTP>
         <FTPUserName>cosmozoozoo</FTPUserName>
         <FTPUserPassword>yy87XAjJqrDV</FTPUserPassword>
     </FTP_Sever>
