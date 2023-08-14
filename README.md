@@ -20,7 +20,7 @@ Microsoft .NET Framework 4.8:
 https://go.microsoft.com/fwlink/?linkid=2088631
 
 
-Windows Management Framework 5.1 
+Windows Management Framework 5.1: 
 https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/docs-conceptual/windows-powershell/wmf/overview.md
 
 <!---
