@@ -14,12 +14,14 @@
 
 
 
+
+
 Microsoft .NET Framework 4.8:
 https://go.microsoft.com/fwlink/?linkid=2088631
 
 
 Windows Management Framework 5.1 
-[https://www.microsoft.com/en-US/download/details.aspx?id=54616](https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/docs-conceptual/windows-powershell/wmf/overview.md)
+https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/docs-conceptual/windows-powershell/wmf/overview.md
 
 <!---
 DIPx2/DIPx2 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
