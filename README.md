@@ -16,7 +16,8 @@
 
 Microsoft .NET Framework 4.8:
 https://go.microsoft.com/fwlink/?linkid=2088631
-и
+
+
 Windows Management Framework 5.1 
 https://www.microsoft.com/en-US/download/details.aspx?id=54616
 
