@@ -4,9 +4,11 @@
 
 
 1)	Запусти от имени администратора PowerShell и выполни команду 'Set-ExecutionPolicy Unrestricted' ответив "Y" на вопрос о разрешении выполнения скриптов PowerShell’а (единожды);
-2)	Каталоги 'FluentFTP', 'FluidField' и 'FluorescentBlogging' скопируй в '%SystemRoot%\system32\WindowsPowerShell\v1.0\Modules';
+2)	Каталоги 'FluentFTP', 'FluidField' и 'FluorescentBlogging' скопируй в '%SystemRoot%\system32\WindowsPowerShell\v1.0\Modules\';
 3)	Каталог 'JumpIntoHappiness' располагай в любом месте, его и вложенный файл 'ReleaseOfHappiness.ps1' можно переименовать;
-4)	Используй ярлык для удобного запуска, можно переименовать его и изменить параметры на свой вкус;
+4)	Произведи настройку на организацию в инициализационном файле 'abibas...xml';
+5)	Ненужные "абибибасы" удали, это для примера;
+6)	Используй ярлык для удобного запуска, можно переименовать его и изменить параметры на свой вкус;
 
 Полезные и важные ссылки для нормальной работы PowerShell'a:
 
