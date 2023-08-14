@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ini>
+  
+    <DisplayName>Каменский</DisplayName> <!-- Название организации -->
+
+    <FTP_Sever>
+        <IP_FTP>100.100.100.100</IP_FTP>
+        <FTPUserName>cosmozoozoo</FTPUserName>
+        <FTPUserPassword>yy87XAjJqrDV</FTPUserPassword>
+    </FTP_Sever>
+
+    <TreasuryClient>
+        <Activate>ON</Activate> <!-- ON/OFF on/off -->
+        <TreasCode>722</TreasCode> <!-- Код казнчейства -->
+        <PayRegNum>700209151</PayRegNum> <!-- УНП организации -->
+        <MailIn>Z:\MFexchange\TK\MailIn\</MailIn> <!-- Закончить бекслешем: \ -->
+        <MailOut>Z:\MFexchange\TK\MailOut\</MailOut> <!-- Закончить бекслешем: \ -->
+        <FTPDIRin>/700209151</FTPDIRin> <!-- От нас >> для TK -->
+        <FTPDIRout>/700209151</FTPDIRout> <!-- Для нас << из ТК -->
+    </TreasuryClient>
+
+    <FinanceClient>
+        <Activate>ON</Activate> <!-- ON/OFF on/off -->
+        <DistrictCode>72902</DistrictCode> <!-- Код района -->
+        <PayRegNumFin>1338</PayRegNumFin>  <!-- УНК райфо -->
+        <TreasAccNum>950</TreasAccNum>  <!-- УНК организации -->
+        <MailIn>C:\FM\MailIn\</MailIn> <!-- Закончить бекслешем: \ -->
+        <MailOut>C:\FM\MailOut\10-1338\</MailOut> <!-- Закончить бекслешем: \ -->
+        <FTPDIRin>/700209151</FTPDIRin> <!-- От нас >> для ФО -->
+        <FTPDIRout>/700209151</FTPDIRout> <!-- Для нас << из ФО -->
+    </FinanceClient>
+
+</ini>

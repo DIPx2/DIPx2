@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ini>
+  
+    <DisplayName>Инспекция по ментальному здровью стратосферных няшек</DisplayName> <!-- Название организации -->
+
+    <FTP_Sever>
+        <IP_FTP>10.6.4.11</IP_FTP>
+        <FTPUserName>722</FTPUserName>
+        <FTPUserPassword>722</FTPUserPassword>
+    </FTP_Sever>
+
+    <TreasuryClient>
+        <Activate>ON</Activate> <!-- ON/OFF on/off -->
+        <TreasCode>700</TreasCode> <!-- Код казнчейства -->
+        <PayRegNum>700184253</PayRegNum> <!-- УНП организации -->
+        <MailIn>D:\FooFoo\In\</MailIn> <!-- Закончить бекслешем: \ -->
+        <MailOut>D:\FooFoo\Out\10-100\</MailOut> <!-- Закончить бекслешем: \ -->
+        <FTPDIRin>/TEMP/A</FTPDIRin> <!-- От нас (из организации) >> для TK -->
+        <FTPDIRout>/TEMP/B</FTPDIRout> <!-- Для нас (для организации) << из ТК -->
+    </TreasuryClient>
+
+    <FinanceClient>
+        <Activate>OFF</Activate> <!-- ON/OFF on/off -->
+        <DistrictCode>72900</DistrictCode> <!-- Код района -->
+        <PayRegNumFin>1338</PayRegNumFin>  <!-- УНК райфо -->
+        <TreasAccNum>450</TreasAccNum>  <!-- УНК организации -->
+        <MailIn>C:\FM\MailIn\</MailIn> <!-- Закончить бекслешем: \ -->
+        <MailOut>C:\FM\MailOut\75-1338\</MailOut> <!-- Закончить бекслешем: \ -->
+        <FTPDIRin>/common/BDE/NULL/Fin/In</FTPDIRin> <!-- От нас >> для ФО -->
+        <FTPDIRout>/common/BDE/NULL/Fin/Out</FTPDIRout> <!-- Для нас << из ФО -->
+    </FinanceClient>
+
+</ini>
