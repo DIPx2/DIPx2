@@ -32,7 +32,7 @@ param(
     [string] $user,
     [Parameter(Mandatory=$true)]
     [string] $password,
-    [string] $ftpDirectory = "",
+    [string] $ftpDirectory = "/",
     [Parameter(Mandatory=$true)]
     [string] $ftpFileName
     )
