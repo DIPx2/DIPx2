@@ -82,8 +82,6 @@ if ( $BigDump -match "Timed out trying to connect!" ) { return $report += ( "24"
 
 $OnlyFILE = Get-List_FILES -Dump ( $BigDump )
 
-Write-Output $OnlyFILE
-
 # 28 - FTP-êàòàëîã áåç ôàéëîâ 
 if ($OnlyFILE.count -eq 0){ return $report += ( "28"+"|"+"*" ) } 
     else  { foreach ( $j in $OnlyFILE ) {
