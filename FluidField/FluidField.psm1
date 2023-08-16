@@ -1,16 +1,16 @@
-    # 4 - Ëîêàëüíûé êàòàëîã íå ñóùåñòâóåò
-    # 8 - Íåò ôàéëîâ â êàòàëîãå îòïðàâêè
-    # 12 - Îòïðàâêà èç ëîêàëüíîãî êàòàëîãà íà FTP ïðîèçîøëà
-    # 16 - Ôàéë â êàòàëîãå îòïðàâêè íå ñîîòâåòñòâóåò øàáëîíó îòïðàâêè
-    # 20 - Ëîãèí èëè ïàðîëü íåêîððåêòíû
-    # 24 - Ñåðâåð íå îòâå÷àåò
-    # 28 - FTP-êàòàëîã áåç ôàéëîâ 
-    # 32 - Ôàéë íà FTP, íå ñîîòâåòñòâóåò øàáëîíó ïîëó÷åíèÿ
-    # 36 - Çàãðóçêà ôàéëà èç êàòàëîãà FTP-ñåðâåðà â ëîêàëüíûé êàòàëîã ïðîèçîøëà
-    # 40 - Ôàéë èç êàòàëîãà FTP-ñåðâåðà â ëîêàëüíûé êàòàëîã íå ìîæåò áûòü ïðèíÿò
-    # 44 - Ôàéë èç êàòàëîãà FTP-ñåðâåðà óäàëåí ïîñëå ïîëó÷åíèÿ
-    # 48 - Ïðîãðàììà "FM" íå óñòàíîâëåíà èëè óñòàíîâëåíà íåêîððåêòíî
-    # 52 - Íåò êàòàëîãà èëè ôàéëà íà FTP
+    # 4 - Локальный каталог не существует
+    # 8 - Нет файлов в каталоге отправки
+    # 12 - Отправка из локального каталога на FTP произошла
+    # 16 - Файл в каталоге отправки не соответствует шаблону отправки
+    # 20 - Логин или пароль некорректны
+    # 24 - Сервер не отвечает
+    # 28 - FTP-каталог без файлов 
+    # 32 - Файл на FTP, не соответствует шаблону получения
+    # 36 - Загрузка файла из каталога FTP-сервера в локальный каталог произошла
+    # 40 - Файл из каталога FTP-сервера в локальный каталог не может быть принят
+    # 44 - Файл из каталога FTP-сервера удален после получения
+    # 48 - Программа "FM" не установлена или установлена некорректно
+    # 52 - Нет каталога или файла на FTP
 
 
 Function EmitterIP{
@@ -30,10 +30,10 @@ param(  [Parameter(Mandatory=$true)] [string] $Site,
 )
 
 $report = @()
-# 4 - Ëîêàëüíûé êàòàëîã íå ñóùåñòâóåò
+# 4 - Локальный каталог не существует
 if ( (Test-Path -Path $localPath) -eq $false ) { return $report += ( "4"+"|"+"*" ) }
 $dump = Get-ChildItem -Path $localPath -Name -File
-# 8 - Íåò ôàéëîâ â êàòàëîãå îòïðàâêè
+# 8 - Нет файлов в каталоге отправки
 if ( $dump.Length -eq 0 ) { return $report += ( "8"+"|"+"*" ) }
     foreach ( $I in $dump ){
         if ($I.trim() -match $LocalFilePattern){ 
@@ -46,11 +46,11 @@ if ( $dump.Length -eq 0 ) { return $report += ( "8"+"|"+"*" ) }
             
             if ( $xf -match "successfully copied") { 
                  Remove-Item -Path  ( Join-Path $localPath $I )
-                 $report += ( "12"+"|"+ $i)  # 12 - Îòïðàâêà èç ëîêàëüíîãî êàòàëîãà íà FTP ïðîèçîøëà
+                 $report += ( "12"+"|"+ $i)  # 12 - Отправка из локального каталога на FTP произошла
             }
 
         } else {
-            # 16 - Ôàéë â êàòàëîãå îòïðàâêè íå ñîîòâåòñòâóåò øàáëîíó îòïðàâêè
+            # 16 - Файл в каталоге отправки не соответствует шаблону отправки
             $report += ( "16"+"|"+ $i )        }
     }
 
@@ -71,7 +71,7 @@ $report = @()
 Function Get-List_FILES { Param ([Parameter(Mandatory=$true)] [string[]] $Dump) 
 return ($Dump[$Dump.Count..1]) -match "FILE" | % {($_.Remove($_.IndexOf("("), $_.Length - $_.IndexOf("("))).Remove(0,7)} }
 
-# 4 - Ëîêàëüíûé êàòàëîã íå ñóùåñòâóåò
+# 4 - Локальный каталог не существует
 if ( (Test-Path -Path $localPath) -eq $false ) { return $report += ( "4"+"|"+"*" ) }
 
 $BigDump = Show-FtpFile -Site $Site -User $User -Password $Password -FtpDirectory $FtpDirectory -ftpFileName "*"
@@ -84,20 +84,20 @@ if ( $BigDump.Count -gt 0 ){
     $OnlyFILE = Get-List_FILES -Dump ( $BigDump )
 }
 
-# 28 - FTP-êàòàëîã áåç ôàéëîâ 
+# 28 - FTP-каталог без файлов 
 if ($OnlyFILE.count -eq 0){ return $report += ( "28"+"|"+"*" ) } 
     else  { foreach ( $j in $OnlyFILE ) {
-                # 32 - Ôàéë íà FTP, ñîîòâåòñòâóåò øàáëîíó ïîëó÷åíèÿ
+                # 32 - Файл на FTP, соответствует шаблону получения
                 #if ( $j.Trim() -notmatch $FTPFile ) { return $report += ( "32"+"|"+$j.Trim() ) }
                 if ( $j.Trim() -notmatch $FTPFile ) { $report += ( "32"+"|"+$j.Trim() ) }
                 if ( $j.Trim() -match $FTPFile ) {
                     [string]$e = Get-FtpFile -site $Site -user $User -password $Password -ftpDirectory $FtpDirectory -ftpFileName $j.Trim() -LocalPath $localPath
-                    # 36 - Çàãðóçêà ôàéëà èç êàòàëîãà FTP-ñåðâåðà â ëîêàëüíûé êàòàëîã ïðîèçîøëà
+                    # 36 - Загрузка файла из каталога FTP-сервера в локальный каталог произошла
                     if ($e -match "successfully downloaded to"){ $report += ( "36"+"|"+$j.Trim() ) }
-                    # 40 - Ôàéë èç êàòàëîãà FTP-ñåðâåðà â ëîêàëüíûé êàòàëîã íå ìîæåò áûòü ïðèíÿò
+                    # 40 - Файл из каталога FTP-сервера в локальный каталог не может быть принят
                     if ($e -match "No files were found"){ return $report += ( "40"+"|"+$j.Trim() ); continue }
                     $q = Remove-FtpFile -site $Site -user $User -password $Password -ftpDirectory $FtpDirectory -ftpFileName $j.Trim()
-                    # 44 - Ôàéë èç êàòàëîãà FTP-ñåðâåðà óäàëåí ïîñëå ïîëó÷åíèÿ
+                    # 44 - Файл из каталога FTP-сервера удален после получения
                     if ($q -match "successfully deleted"){ $report += ( "44"+"|"+$j.Trim() ) }
                 } 
            }
@@ -122,7 +122,7 @@ $TreasuryClientPatternSend = ( "{0}{1}{2}{3}" -f "[fpqhw]", $abibas.ini.Treasury
 
     $argument_3.add( "localPath", $abibas.ini.TreasuryClient.MailIn )
     $argument_3.add( "FtpDirectory", $abibas.ini.TreasuryClient.FTPDIRout )
-    $argument_3.add( "Description", "IT" ) # èíôî-ôàéë äëÿ Êëèåíòà-ÒÊ
+    $argument_3.add( "Description", "IT" ) # инфо-файл для Клиента-ТК
 
     Blogging -event $report_3 -argument $argument_3
 
@@ -137,7 +137,7 @@ $TreasuryClientPatternSend = ( "{0}{1}{2}{3}" -f "[fpqhw]", $abibas.ini.Treasury
 
     $argument_2.add( "localPath", $abibas.ini.TreasuryClient.MailIn )
     $argument_2.add( "FtpDirectory", $abibas.ini.TreasuryClient.FTPDIRout )
-    $argument_2.add( "Description", "UT" ) # îáíîâëåíèå äëÿ Êëèåíòà-ÒÊ
+    $argument_2.add( "Description", "UT" ) # обновление для Клиента-ТК
 
     Blogging -event $report_2 -argument $argument_2
     #----------
@@ -151,7 +151,7 @@ $TreasuryClientPatternSend = ( "{0}{1}{2}{3}" -f "[fpqhw]", $abibas.ini.Treasury
 
     $argument_A.add( "localPath", $abibas.ini.TreasuryClient.MailOut )
     $argument_A.add( "FtpDirectory", $abibas.ini.TreasuryClient.FTPDIRin )
-    $argument_A.add( "Description", "TKi" ) # îò Êëèåíòà-ÒÊ
+    $argument_A.add( "Description", "TKi" ) # от Клиента-ТК
 
     Blogging -event $report_A -argument $argument_A
 } #********************************************************************************************
@@ -161,7 +161,7 @@ $FinanceClientPatternRecive = ( "{0}-{1}-{2}{3}" -f $abibas.ini.FinanceClient.Di
 $FinanceClientPatternSend = ( "{0}-{1}-{2}{3}" -f $abibas.ini.FinanceClient.DistrictCode, $abibas.ini.FinanceClient.TreasAccNum, $abibas.ini.FinanceClient.PayRegNumFin, "[A-Za-z0-9]{0,5}\.que" )
 
 $FMpth = ( Get-ChildItem -Path HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\ |`
-           where {$_.Name -match "Ïðèëîæåíèå Êîìïëåêñ çàäà÷ «Ãëàâíûé ðàñïîðÿäèòåë" } |`
+           where {$_.Name -match "Приложение Комплекс задач «Главный распорядител" } |`
            Get-ItemProperty ).'Inno Setup: App Path'
 
 if ( $FMpth -like "" ) { Blogging -event "48|*" }
@@ -178,7 +178,7 @@ if ( $FMpth -like "" ) { Blogging -event "48|*" }
 
     $argument_0.add( "localPath", $abibas.ini.FinanceClient.MailIn )
     $argument_0.add( "FtpDirectory", $abibas.ini.FinanceClient.FTPDIRout )
-    $argument_0.add( "Description", "IG" ) # èíôî-ôàéë äëÿ ÃÐÑ
+    $argument_0.add( "Description", "IG" ) # инфо-файл для ГРС
 
     Blogging -event $report_0 -argument $argument_0
 
@@ -193,7 +193,7 @@ if ( $FMpth -like "" ) { Blogging -event "48|*" }
 
     $argument_1.add( "localPath", $abibas.ini.FinanceClient.MailIn )
     $argument_1.add( "FtpDirectory", $abibas.ini.FinanceClient.FTPDIRout )
-    $argument_1.add( "Description", "UG" ) # îáíîâëåíèå äëÿ ÃÐÑ
+    $argument_1.add( "Description", "UG" ) # обновление для ГРС
 
     Blogging -event $report_1 -argument $argument_1
 
@@ -214,7 +214,7 @@ if ( $FMpth -like "" ) { Blogging -event "48|*" }
 
     $argument_B.add("localPath", $abibas.ini.FinanceClient.MailOut)
     $argument_B.add( "FtpDirectory", $abibas.ini.FinanceClient.FTPDIRin )
-    $argument_B.add( "Description", "FMi" ) # èç FM
+    $argument_B.add( "Description", "FMi" ) # из FM
 
     Blogging -event $report_B -argument $argument_B
     #----------
