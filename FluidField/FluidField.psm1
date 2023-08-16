@@ -80,7 +80,9 @@ if ( $BigDump -match "no such file or directory" ) { return $report += ( "52"+"|
 if ( $BigDump -match "Login or Password incorrect." ) { return $report += ( "20"+"|"+"*" ) }
 if ( $BigDump -match "Timed out trying to connect!" ) { return $report += ( "24"+"|" +"*") }
 
-$OnlyFILE = Get-List_FILES -Dump ( $BigDump )
+if ( $BigDump.Count -gt 0 ){
+    $OnlyFILE = Get-List_FILES -Dump ( $BigDump )
+}
 
 # 28 - FTP-êàòàëîã áåç ôàéëîâ 
 if ($OnlyFILE.count -eq 0){ return $report += ( "28"+"|"+"*" ) } 
