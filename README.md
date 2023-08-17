@@ -6,7 +6,7 @@
 1)	Запусти от имени администратора PowerShell и выполни команду 'Set-ExecutionPolicy Unrestricted' ответив "Y" на вопрос о разрешении выполнения скриптов PowerShell’а (единожды);
 2)	Для Windows 7 скачай и установи Windows Management Framework 5.1;
 3)	Каталоги 'FluentFTP', 'FluidField' и 'FluorescentBlogging' скопируй в '%SystemRoot%\system32\WindowsPowerShell\v1.0\Modules\';
-4)	Каталог 'JumpIntoHappiness' располагай в любом месте, его и вложенный файл 'ReleaseOfHappiness.ps1' можно переименовать;
+4)	Каталог 'Jump-Into-Happiness' располагай в любом месте, его и вложенный файл 'ReleaseOfHappiness.ps1' можно переименовать;
 5)	Произведи настройку на организацию в инициализационном файле 'abibas...xml';
 6)	Ненужные "абибасы" удали, они для примера, как можно организовать обмен файлами со множеством организаций;
 7)	Используй ярлык 'SOKOL-SOFT' для удобного запуска, можно изменить параметры на свой вкус;
