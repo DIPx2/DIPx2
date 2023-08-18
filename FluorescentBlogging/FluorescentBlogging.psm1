@@ -47,7 +47,7 @@ Foreach ( $e in $event){
         #"32" { Write-Host ( "{0} {1} {2}" -f "`t`t", (Date), ">>>" ) }
         #"36" { Write-Host  ( "{0} {1} - {2}{3} {4} {5}{6}" -f "`t`t", (Date), $argument.FtpDirectory, $w[1], ">>>", $argument.localPath, $w[1] ) }
         "36" { 
-                if ( $argument.Description -eq "IG" ) { $s = "принят для FM";  Write-Host  ( "{0} {1} {2}" -f "`t`t", (Date), $s ) -ForegroundColor Yellow }
+                if ( $argument.Description -eq "IG" ) { $s = "принят для FM";  Write-Host  ( "{0} {1} {2}" -f "`t`t", (Date), $s ) -ForegroundColor DarkCyan }
                 if ( $argument.Description -eq "UG" ) { 
                     $s = "принят для FM"; Write-Host  ( "{0} {1} {2}" -f "`t`t", (Date), $s )  -ForegroundColor Yellow -NoNewline
                     Write-Host  ( "{0} {1}" -f " ", "обновление" )  -ForegroundColor DarkYellow
