@@ -1,20 +1,16 @@
-
-
-
-    # 4 - Локальный каталог не существует
-    # 8 - Нет файлов в каталоге отправки
-    # 12 - Отправка из локального каталога на FTP произошла
-    # 16 - Файл в каталоге отправки не соответствует шаблону отправки
-    # 20 - Логин или пароль некорректны
-    # 24 - Сервер не отвечает
-    # 28 - FTP-каталог без файлов 
-    # 32 - Файл на FTP, не соответствует шаблону получения
-    # 36 - Загрузка файла из каталога FTP-сервера в локальный каталог произошла
-    # 40 - Файл из каталога FTP-сервера в локальный каталог не может быть принят
-    # 44 - Файл из каталога FTP-сервера удален после получения
-    # 48 - Программа "FM" не установлена или установлена некорректно
-    # 52 - Нет каталога или файла на FTP
-
+# 4 - Локальный каталог не существует
+# 8 - Нет файлов в каталоге отправки
+# 12 - Отправка из локального каталога на FTP произошла
+# 16 - Файл в каталоге отправки не соответствует шаблону отправки
+# 20 - Логин или пароль некорректны
+# 24 - Сервер не отвечает
+# 28 - FTP-каталог без файлов 
+# 32 - Файл на FTP, не соответствует шаблону получения
+# 36 - Загрузка файла из каталога FTP-сервера в локальный каталог произошла
+# 40 - Файл из каталога FTP-сервера в локальный каталог не может быть принят
+# 44 - Файл из каталога FTP-сервера удален после получения
+# 48 - Программа "FM" не установлена или установлена некорректно
+# 52 - Нет каталога или файла на FTP
 
 Function EmitterIP{
 param( [Parameter(Mandatory=$true)] [string] $site )
@@ -33,6 +29,7 @@ param(  [Parameter(Mandatory=$true)] [string] $Site,
 )
 
 $report = @()
+
 # 4 - Локальный каталог не существует
 if ( (Test-Path -Path $localPath) -eq $false ) { return $report += ( "4"+"|"+"*" ) }
 $dump = Get-ChildItem -Path $localPath -Name -File
@@ -51,87 +48,71 @@ if ( $dump.Length -eq 0 ) { return $report += ( "8"+"|"+"*" ) }
                  Remove-Item -Path  ( Join-Path $localPath $I )
                  $report += ( "12"+"|"+ $i)  # 12 - Отправка из локального каталога на FTP произошла
             }
-
         } else {
             # 16 - Файл в каталоге отправки не соответствует шаблону отправки
             $report += ( "16"+"|"+ $i )        }
     }
-
 return $report
 } #********************************************************************************************
+Function Get-List_FILES { Param ([Parameter(Mandatory=$true)] [string[]] $Dump) 
 
-	Function Get-List_FILES { Param ([Parameter(Mandatory=$true)] [string[]] $Dump) 
+$u = @()
 
-		$u = @()
+foreach ($str in $dump){
 
-		foreach ($str in $dump){
-
-			if ($str -match "^FILE"){
-				$u += ($str | % { $_ -replace 'FILE\s{0,}' } | % { $_ -replace '\s{0,}\(.{0,}' })
-			}
-		}
-		return $u
-
+	if ($str -match "^FILE"){
+		$u += ($str | % { $_ -replace 'FILE\s{0,}' } | % { $_ -replace '\s{0,}\(.{0,}' })
 	}
-
-
+}
+return $u
+}#********************************************************************************************
 Function Run-Get {
 
 param(  [Parameter(Mandatory=$true)] [string] $Site,
-        [Parameter(Mandatory=$true)] [string] $User,
-        [Parameter(Mandatory=$true)] [string] $Password,
-        [Parameter(Mandatory=$true)] [string] $FtpDirectory,
-        [Parameter(Mandatory=$true)] [string] $FTPFile,
-        [Parameter(Mandatory=$true)] [string] $localPath
+	[Parameter(Mandatory=$true)] [string] $User,
+	[Parameter(Mandatory=$true)] [string] $Password,
+	[Parameter(Mandatory=$true)] [string] $FtpDirectory,
+	[Parameter(Mandatory=$true)] [string] $FTPFile,
+	[Parameter(Mandatory=$true)] [string] $localPath
 )
 
+$report = @()
 
+# 4 - Локальный каталог не существует
+if ( (Test-Path -Path $localPath) -eq $false ) { return $report += ( "4"+"|"+"*" ) }
 
+$BigDump = Show-FtpFile -Site $Site -User $User -Password $Password -FtpDirectory $FtpDirectory -ftpFileName "*"
 
+if ( $BigDump -match "no such file or directory" ) { return $report += ( "52"+"|" +"*") }
+if ( $BigDump -match "Login or Password incorrect." ) { return $report += ( "20"+"|"+"*" ) }
+if ( $BigDump -match "Timed out trying to connect!" ) { return $report += ( "24"+"|" +"*") }
 
-
-	$report = @()
-
-
-	# 4 - Локальный каталог не существует
-	if ( (Test-Path -Path $localPath) -eq $false ) { return $report += ( "4"+"|"+"*" ) }
-
-	$BigDump = Show-FtpFile -Site $Site -User $User -Password $Password -FtpDirectory $FtpDirectory -ftpFileName "*"
-
-	if ( $BigDump -match "no such file or directory" ) { return $report += ( "52"+"|" +"*") }
-	if ( $BigDump -match "Login or Password incorrect." ) { return $report += ( "20"+"|"+"*" ) }
-	if ( $BigDump -match "Timed out trying to connect!" ) { return $report += ( "24"+"|" +"*") }
-
-	if ( $BigDump.Count -gt 0 ){
-		$OnlyFILE = Get-List_FILES -Dump ( $BigDump )
-	}
-
-	# 28 - FTP-каталог без файлов 
-	if ($OnlyFILE.count -eq 0){ return $report += ( "28"+"|"+"*" ) } 
-		else  { foreach ( $j in $OnlyFILE ) {
-					# 32 - Файл на FTP, соответствует шаблону получения
-					#if ( $j.Trim() -notmatch $FTPFile ) { return $report += ( "32"+"|"+$j.Trim() ) }
-					if ( $j.Trim() -notmatch $FTPFile ) { $report += ( "32"+"|"+$j.Trim() ) }
-					if ( $j.Trim() -match $FTPFile ) {
-						[string]$e = Get-FtpFile -site $Site -user $User -password $Password -ftpDirectory $FtpDirectory -ftpFileName $j.Trim() -LocalPath $localPath
-						# 36 - Загрузка файла из каталога FTP-сервера в локальный каталог произошла
-						if ($e -match "successfully downloaded to"){ $report += ( "36"+"|"+$j.Trim() ) }
-						# 40 - Файл из каталога FTP-сервера в локальный каталог не может быть принят
-						if ($e -match "No files were found"){ return $report += ( "40"+"|"+$j.Trim() ); continue }
-						$q = Remove-FtpFile -site $Site -user $User -password $Password -ftpDirectory $FtpDirectory -ftpFileName $j.Trim()
-						# 44 - Файл из каталога FTP-сервера удален после получения
-						if ($q -match "successfully deleted"){ $report += ( "44"+"|"+$j.Trim() ) }
-					} 
-			   }
-		 }
-	Write-Output $report
+if ( $BigDump.Count -gt 0 ){
+	$OnlyFILE = Get-List_FILES -Dump ( $BigDump )
 }
 
-
-
- #********************************************************************************************
+# 28 - FTP-каталог без файлов 
+if ($OnlyFILE.count -eq 0){ return $report += ( "28"+"|"+"*" ) } 
+	else  { foreach ( $j in $OnlyFILE ) {
+				# 32 - Файл на FTP, соответствует шаблону получения
+				#if ( $j.Trim() -notmatch $FTPFile ) { return $report += ( "32"+"|"+$j.Trim() ) }
+				if ( $j.Trim() -notmatch $FTPFile ) { $report += ( "32"+"|"+$j.Trim() ) }
+				if ( $j.Trim() -match $FTPFile ) {
+					[string]$e = Get-FtpFile -site $Site -user $User -password $Password -ftpDirectory $FtpDirectory -ftpFileName $j.Trim() -LocalPath $localPath
+					# 36 - Загрузка файла из каталога FTP-сервера в локальный каталог произошла
+					if ($e -match "successfully downloaded to"){ $report += ( "36"+"|"+$j.Trim() ) }
+					# 40 - Файл из каталога FTP-сервера в локальный каталог не может быть принят
+					if ($e -match "No files were found"){ return $report += ( "40"+"|"+$j.Trim() ); continue }
+					$q = Remove-FtpFile -site $Site -user $User -password $Password -ftpDirectory $FtpDirectory -ftpFileName $j.Trim()
+					# 44 - Файл из каталога FTP-сервера удален после получения
+					if ($q -match "successfully deleted"){ $report += ( "44"+"|"+$j.Trim() ) }
+				} 
+		   }
+	 }
+Write-Output $report
+}
+#********************************************************************************************
 Function Relay_Tr { Param ( [Parameter(Mandatory=$true)] [xml] $abibas )
-
 
 $TreasuryClientPatternRecive = ( "{0}{1}{2}{3}" -f "[emldv]", $abibas.ini.TreasuryClient.PayRegNum, "[0-9]*\.", $abibas.ini.TreasuryClient.TreasCode )
 $TreasuryClientPatternSend = ( "{0}{1}{2}{3}" -f "[fpqhw]", $abibas.ini.TreasuryClient.TreasCode, "[0-9]*\.", $abibas.ini.TreasuryClient.PayRegNum )
