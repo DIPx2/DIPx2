@@ -17,12 +17,10 @@
 
 
 
-Microsoft .NET Framework 4.8:
-https://go.microsoft.com/fwlink/?linkid=2088631
+[Microsoft .NET Framework 4.8] (https://go.microsoft.com/fwlink/?linkid=2088631)
 
 
-Windows Management Framework 5.1: 
-[https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/docs-conceptual/windows-powershell/wmf/overview.md](https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/docs-conceptual/windows-powershell/wmf/setup/install-configure.md#wmf-51-prerequisites-for-windows-server-2008-r2-sp1-and-windows-7-sp1)https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/docs-conceptual/windows-powershell/wmf/setup/install-configure.md#wmf-51-prerequisites-for-windows-server-2008-r2-sp1-and-windows-7-sp1
+[Windows Management Framework 5.1] (https://learn.microsoft.com/ru-ru/powershell/scripting/windows-powershell/wmf/setup/install-configure?view=powershell-7.3) 
 
 <!---
 DIPx2/DIPx2 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
